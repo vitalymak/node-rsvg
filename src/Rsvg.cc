@@ -99,7 +99,10 @@ NAN_METHOD(Rsvg::New) {
         // Invoked as plain function `Rsvg(...)`, turn into construct call.
         const int argc = 1;
         Local<Value> argv[argc] = { ARGVAR[0] };
-        ARGVAR.GetReturnValue().Set(Nan::New<Function>(constructor)->NewInstance(argc, argv));
+        ARGVAR.GetReturnValue().Set(
+            Nan::New<Function>(constructor)
+                ->NewInstance(Nan::GetCurrentContext(), argc, argv).ToLocalChecked()
+        );
     }
 }
 
@@ -433,7 +436,7 @@ NAN_METHOD(Rsvg::Render) {
         return ARGVAR.GetReturnValue().Set(Nan::Undefined());
     }
 
-    Handle<ObjectTemplate> image = ObjectTemplate::New();
+    Handle<ObjectTemplate> image = ObjectTemplate::New(Nan::GetCurrentContext()->GetIsolate());
     if (renderFormat == RENDER_FORMAT_SVG) {
         image->Set(Nan::New("data").ToLocalChecked(), Nan::New<String>(data.c_str()).ToLocalChecked());
     } else {
