@@ -40,6 +40,7 @@ private:
         static v8::Local<v8::Integer>  GetIntegerProperty(const char* property, const ARGTYPE& ARGVAR);
         static void SetIntegerProperty(const char* property, const ARGTYPE& ARGVAR);
 	static Nan::Persistent<v8::Function> constructor;
+  static void propGetter(v8::Local<v8::String> name, const v8::PropertyCallbackInfo<v8::Value>& info);
 	RsvgHandle* const _handle;
 };
 
