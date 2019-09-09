@@ -1,3 +1,9 @@
+# 🛑 This project is no longer maintained
+
+If you have any issues, you can try [prebuilt node-rsvg](https://github.com/f3lang/node-rsvg-prebuilt) or create your own fork.
+
+---
+
 # Node.JS Binding for LibRSVG
 
 **LibRSVG** is a SVG rendering library, which parses SVG files and renders them in various formats. The formats include:
