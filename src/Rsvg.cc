@@ -132,11 +132,13 @@ NAN_METHOD(Rsvg::GetDPI) {
             NULL
             );
 
-    Handle<ObjectTemplate> dpi = Nan::New<ObjectTemplate>();
+    auto context = v8::Isolate::GetCurrent()->GetCurrentContext();
+    Local<ObjectTemplate> dpi = Nan::New<ObjectTemplate>();
     dpi->Set(Nan::New("x").ToLocalChecked(), Nan::New<Number>(dpiX));
     dpi->Set(Nan::New("y").ToLocalChecked(), Nan::New<Number>(dpiY));
 
-    ARGVAR.GetReturnValue().Set(dpi->NewInstance());
+    auto argg = dpi->NewInstance(context);
+    ARGVAR.GetReturnValue().Set(argg);
 }
 
 NAN_METHOD(Rsvg::SetDPI) {
@@ -252,7 +254,7 @@ NAN_METHOD(Rsvg::Dimensions) {
     gboolean hasDimensions = rsvg_handle_get_dimensions_sub(obj->_handle, &_dimensions, id);
 
     if (hasPosition || hasDimensions) {
-        Handle<ObjectTemplate> dimensions = Nan::New<ObjectTemplate>();
+        Local<ObjectTemplate> dimensions = Nan::New<ObjectTemplate>();
         if (hasPosition) {
             dimensions->Set(Nan::New("x").ToLocalChecked(), Nan::New<Integer>(_position.x));
             dimensions->Set(Nan::New("y").ToLocalChecked(), Nan::New<Integer>(_position.y));
@@ -439,7 +441,7 @@ NAN_METHOD(Rsvg::Render) {
         return ARGVAR.GetReturnValue().Set(Nan::Undefined());
     }
 
-    Handle<ObjectTemplate> image = CREATE_OBJ();
+    Local<ObjectTemplate> image = CREATE_OBJ();
     if (renderFormat == RENDER_FORMAT_SVG) {
         PROP_SET(image, "data", Nan::New<String>(data.c_str()).ToLocalChecked());
     } else {
